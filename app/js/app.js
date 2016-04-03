@@ -1,16 +1,23 @@
 import _ from 'underscore';
+import Papa from 'papaparse';
 
-var Converter = require("csvtojson").Converter;
-var converter = new Converter({});
+let parseConfig = {
+    header: true,
+    error: (error, file) => {
+      console.error('error: ', error);
+    },
+    complete: (results, file) => {
+      console.log('parsed:', results);
+      getStipends(cleanEtoData(results.data));
+    }
+}
 
-var csvFileInput = document.getElementById('csv-input')
+let csvFileInput = document.getElementById('csv-input');
+csvFileInput.addEventListener('change', handleCSVInput, false);
 
-csvFileInput.addEventListener('change', handleCSV, false);
 
-function handleCSV() {
-  console.log('got file');
-  var csv = this.files[0];
-  console.log(csv);
+function handleCSVInput() {
+  Papa.parse(this.files[0], parseConfig);
 }
 
 function loadJSON(callback, jsonPath) {   
@@ -35,33 +42,16 @@ function loadJSON(callback, jsonPath) {
     xobj.send(null);  
 }
 
-
-
-// loadJSON(console.log.bind(console), 'data/mar20-apr1.json');
-loadJSON(processAttendance, 'data/mar20-apr1.json');
-loadJSON(getStipends, 'data/mar20-apr1.json');
-
-function processAttendance(attendence) {
-  var result = attendence.filter(entry => {
-    return 'Adams, Jamie' === entry.subjectName;
-  }).map(entry => {
-    return entry.totalDailyCredits
-  }).reduce((sum, credits) => {
-    return sum + credits;
-  });
-  console.log(result)
-}
-
+// loadJSON(getStipends, 'data/mar20-apr1.json');
 
 function getNames(attendence){
-  var results = []
+  var names = []
   attendence.forEach(entry => {
-    if (results.indexOf(entry.subjectName) === -1) {
-      results.push(entry.subjectName);
+    if (names.indexOf(entry.subjectName) === -1) {
+      names.push(entry.subjectName);
     };
   });
-  // console.log(results);
-  return results;
+  return names;
 }
 
 function getStipends(attendence) {
@@ -71,12 +61,11 @@ function getStipends(attendence) {
     return attendence.filter(entry => {
       return name === entry.subjectName;
     }).map(entry => {
-      return entry.totalDailyCredits
+      return Number(entry.totalDailyCredits);
     }).reduce((sum, credits) => {
       return sum + credits;
     },0)
-  })
-  // console.log(totals);
+  });
 
   let results = _.zip(names, totals).map(el => {
     let obj = {};
@@ -86,8 +75,20 @@ function getStipends(attendence) {
   console.log(results);
 }
 
+//ETO data formatting helpers
+
 function camelize(str) {
   return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
     return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
   }).replace(/\s+/g, '');
+}
+
+function cleanEtoData(etoData) {
+  return etoData.map(function(obj){
+    var newObj = {};
+    for (var prop in obj) {
+      newObj[camelize(prop).replace(/:/g, '')] = obj[prop];
+    };
+    return newObj;
+  });
 }
