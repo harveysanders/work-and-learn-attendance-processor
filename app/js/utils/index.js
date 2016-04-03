@@ -18,7 +18,7 @@ utils.cleanEtoData = etoData => {
   return etoData.map(function(obj){
     var newObj = {};
     for (var prop in obj) {
-      newObj[camelize(prop).replace(/:/g, '')] = obj[prop];
+      newObj[camelize(prop).replace(/[&]?[:]?/g, '')] = obj[prop];
     };
     return newObj;
   });
