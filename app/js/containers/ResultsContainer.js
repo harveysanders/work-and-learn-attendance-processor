@@ -5,12 +5,13 @@ import ResultsTableRow from '../components/ResultsTableRow'
 import ResultsTableHeader from '../components/ResultsTableHeader'
 
 //TODO: figure out how to get headers to stay in order
+//TODO: add sort dropdown box or clickable headers
 
 class ResultsContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortBy: 'participantName'
+			sortBy: 'participantName' //'cohort'
 		};
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 	}
@@ -29,6 +30,7 @@ class ResultsContainer extends React.Component {
 			(<ResultsTableRow 
 					name={participant.participantName} 
 					totalCredits={participant.totalCredits}
+					cohort={participant.cohort}
 					key={i}
 					index={i}
 				/>
@@ -46,6 +48,9 @@ class ResultsContainer extends React.Component {
 						<th>#</th>
 						<th onClick={this.handleHeaderClick}>
 							Participant Name
+						</th>
+						<th onClick={this.handleHeaderClick}>
+							Cohort
 						</th>
 						<th onClick={this.handleHeaderClick}>
 							Total Credits

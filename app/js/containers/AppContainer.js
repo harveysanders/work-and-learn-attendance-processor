@@ -14,35 +14,43 @@ TODO: change results objects to
 */
 
 function getNames(attendence){
-  var names = []
+	// console.log(attendence[1]);
+  let names = []
   attendence.forEach(entry => {
-    if (names.indexOf(entry.subjectName) === -1 && entry.subjectName) {
-      names.push(entry.subjectName);
+    if (_.pluck(names, 'participantName').indexOf(entry.subjectName) === -1 && entry.subjectName) {
+      names.push({
+      	participantName:entry.subjectName,
+      	cohort: entry.wLComponent
+      });
     };
   });
   return names;
 }
 
 function getStipends(attendence) {
-  var names = getNames(attendence);
+  let names = getNames(attendence);
 
-  var totals = names.map(name => {
+  let totals = names.map(name => {
+  	//for each participant
     return attendence.filter(entry => {
-      return name === entry.subjectName;
+    	//grab only entries for current participant
+      return name.participantName === entry.subjectName;
     }).map(entry => {
+    	//get totalCredits for each entry and round to nearest 0.5
       return utils.roundDownToHalf(Number(entry.totalDailyCredits));
     }).reduce((sum, credits) => {
+    	//sum all of total daily credits
       return sum + credits;
     },0)
   });
 
-  console.log();
+  // console.log(_.zip(names, totals));
 
   let results = _.zip(names, totals).map(el => {
-    return {
-    	participantName: el[0],
-    	totalCredits: el[1]
-    };
+    return Object.assign(
+    	el[0], 
+    	{totalCredits: el[1]}
+  	)
   });
   return results;
 
