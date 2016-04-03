@@ -16,7 +16,11 @@ class ResultsContainer extends React.Component {
 				)
 			}
 		});
-		return (
+		return !this.props.fileLoaded 
+		? <div>
+			<p>Please load a .csv file to process data.</p>
+		</div>
+		: (
 			<table className="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
