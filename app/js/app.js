@@ -1,6 +1,14 @@
 import _ from 'underscore';
 import Papa from 'papaparse';
 
+/*
+TODO: change results objects to 
+{
+  particiantName: 'Adams, Jamie',
+  totalCredits: 43
+}
+*/
+
 let parseConfig = {
     header: true,
     error: (error, file) => {
