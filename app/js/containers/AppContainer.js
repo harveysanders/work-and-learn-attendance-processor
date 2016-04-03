@@ -3,6 +3,7 @@ import UploadFileForm from '../components/UploadFileForm';
 import ResultsContainer from '../containers/ResultsContainer';
 import _ from 'underscore';
 import Papa from 'papaparse';
+import utils from '../utils';
 
 /*
 TODO: change results objects to 
@@ -15,7 +16,7 @@ TODO: change results objects to
 function getNames(attendence){
   var names = []
   attendence.forEach(entry => {
-    if (names.indexOf(entry.subjectName) === -1) {
+    if (names.indexOf(entry.subjectName) === -1 && entry.subjectName) {
       names.push(entry.subjectName);
     };
   });
@@ -29,47 +30,31 @@ function getStipends(attendence) {
     return attendence.filter(entry => {
       return name === entry.subjectName;
     }).map(entry => {
-      return Number(entry.totalDailyCredits);
+      return utils.roundDownToHalf(Number(entry.totalDailyCredits));
     }).reduce((sum, credits) => {
       return sum + credits;
     },0)
   });
 
+  console.log();
+
   let results = _.zip(names, totals).map(el => {
-    let obj = {
+    return {
     	participantName: el[0],
     	totalCredits: el[1]
     };
-    return obj;
   });
   return results;
 
 }
 
-//ETO data formatting helpers
-
-function camelize(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
-    return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
-  }).replace(/\s+/g, '');
-}
-
-function cleanEtoData(etoData) {
-  return etoData.map(function(obj){
-    var newObj = {};
-    for (var prop in obj) {
-      newObj[camelize(prop).replace(/:/g, '')] = obj[prop];
-    };
-    return newObj;
-  });
-}
 
 class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			results: [{participantName: "Doe, John ", totalCredits:6.2}],
-			fileLoaded: true
+			fileLoaded: false
 		};
 		this.handleCSVInput = this.handleCSVInput.bind(this);
 	}
@@ -81,7 +66,7 @@ class AppContainer extends React.Component {
 		  },
 		  complete: (results, file) => {
 		    this.setState({
-		    	results: getStipends(cleanEtoData(results.data)),
+		    	results: getStipends(utils.cleanEtoData(results.data)),
 		    	fileLoaded: true
 		    })
 		  }
