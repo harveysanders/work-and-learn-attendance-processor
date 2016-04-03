@@ -8,7 +8,12 @@ class ResultsContainer extends React.Component {
 	render() {
 		let participants = this.props.results.map(function(participant) {
 			for (let prop in participant) {
-				return (<ResultsTableRow name={prop} totalCredits={participant[prop]} />	)
+				return (<ResultsTableRow 
+						name={prop} 
+						totalCredits={participant[prop]}
+						key={prop}
+					/>
+				)
 			}
 		});
 		return (
