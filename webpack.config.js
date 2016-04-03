@@ -14,7 +14,7 @@ var BrowserSyncPluginConfig = new BrowserSyncPlugin({
 });
 
 module.exports = {
-    entry: "./app/js/app.js",
+    entry: "./app/js/index.js",
     output: {
         path: __dirname + '/dist',
         filename: "bundle.js"
