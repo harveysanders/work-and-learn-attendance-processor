@@ -6,20 +6,28 @@ import ResultsTableHeader from '../components/ResultsTableHeader'
 
 //TODO: figure out how to get headers to stay in order
 //TODO: add sort dropdown box or clickable headers
+//TODO: show date range
 
 class ResultsContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortBy: 'participantName' //'cohort'
+			sortBy: 'participantName',
+			reverseSort: false
 		};
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 	}
 
-	handleHeaderClick(e) {
-		e.preventDefault();
-		console.log('header click', e.target.innerHtml);
-
+	handleHeaderClick(sortBy) {
+		if (this.state.sortBy === sortBy) {
+			this.setState({
+				reverseSort: !this.state.reverseSort
+			});
+		} else {
+			this.setState({
+				sortBy: sortBy
+			});
+		}
 	}
 	render() {
 		// let headers = [];
@@ -37,6 +45,8 @@ class ResultsContainer extends React.Component {
 			)
 		);
 
+		if (this.state.reverseSort) {participants.reverse();}
+
 		return !this.props.fileLoaded 
 		? <div>
 			<p>Please load a .csv file to process data.</p>
@@ -46,14 +56,20 @@ class ResultsContainer extends React.Component {
 				<thead>
 					<tr>
 						<th>#</th>
-						<th onClick={this.handleHeaderClick}>
-							Participant Name
+						<th>
+							<a href="#" onClick={this.handleHeaderClick.bind(this, 'participantName')}>
+								Participant Name 
+							</a>
 						</th>
-						<th onClick={this.handleHeaderClick}>
-							Cohort
+						<th>
+							<a href="#" onClick={this.handleHeaderClick.bind(this, 'cohort')}>
+								Cohort
+							</a>
 						</th>
-						<th onClick={this.handleHeaderClick}>
-							Total Credits
+						<th>
+							<a href="#" onClick={this.handleHeaderClick.bind(this, 'totalCredits')}>
+								Total Credits
+							</a>
 						</th>
 					</tr>
 				</thead>
