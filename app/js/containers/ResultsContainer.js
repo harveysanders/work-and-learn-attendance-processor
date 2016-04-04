@@ -5,7 +5,6 @@ import ResultsTableRow from '../components/ResultsTableRow'
 import ResultsTableHeader from '../components/ResultsTableHeader'
 
 //TODO: figure out how to get headers to stay in order
-//TODO: add sort dropdown box or clickable headers
 //TODO: show date range
 
 class ResultsContainer extends React.Component {
@@ -48,9 +47,10 @@ class ResultsContainer extends React.Component {
 		if (this.state.reverseSort) {participants.reverse();}
 
 		return !this.props.fileLoaded 
-		? <div>
-			<p>Please load a .csv file to process data.</p>
-		</div>
+		? <div className="alert alert-warning" role="alert">
+				<span className="sr-only">Error:</span>
+				Please load a .csv <a href="https://secure.etosoftware.com/" className="alert-link">ETO</a> report.
+			</div>
 		: (
 			<table className="table table-hover table-condensed table-striped">
 				<thead>

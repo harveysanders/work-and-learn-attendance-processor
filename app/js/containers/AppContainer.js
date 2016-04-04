@@ -6,11 +6,7 @@ import Papa from 'papaparse';
 import utils from '../utils';
 
 /*
-TODO: change results objects to 
-{
-  participantName: 'Adams, Jamie',
-  totalCredits: 43
-}
+TODO: add calculation button or checkbox to show all unfiltered data
 */
 
 function getNames(attendence){
@@ -83,9 +79,9 @@ class AppContainer extends React.Component {
 	render() {
 		return (
 			<div className="container-fluid">
-				<h3>Work & Learn Attendence Processor</h3>
 				<div className='row'>
-					<div className='col-md-12'>
+					<div className='col-md-6 col-md-offset-3'>
+						<h3>Work & Learn Attendence Processor</h3>
 						<UploadFileForm handleFile={this.handleCSVInput}/>
 					</div>
 				</div>
