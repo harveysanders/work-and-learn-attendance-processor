@@ -1,4 +1,5 @@
 import React from 'react';
+import FileUIContainer from '../containers/FileUIContainer';
 import UploadFileForm from '../components/UploadFileForm';
 import ResultsContainer from '../containers/ResultsContainer';
 import Papa from 'papaparse';
@@ -6,6 +7,7 @@ import utils from '../utils';
 
 /*
 TODO: add calculation button or checkbox to show all unfiltered data
+TODO: export data to csv or excel
 */
 
 class AppContainer extends React.Component {
@@ -16,6 +18,7 @@ class AppContainer extends React.Component {
 			fileLoaded: false
 		};
 		this.handleCSVInput = this.handleCSVInput.bind(this);
+		this.handleExportClick = this.handleExportClick.bind(this);
 	}
 	handleCSVInput(e) {
 		Papa.parse(e.target.files[0], {
@@ -31,6 +34,9 @@ class AppContainer extends React.Component {
 		  }
 		})
 	}
+	handleExportClick(e) {
+		console.log('export file');
+	}
 	
 	render() {
 		return (
@@ -38,7 +44,10 @@ class AppContainer extends React.Component {
 				<div className='row'>
 					<div className='col-md-6 col-md-offset-3'>
 						<h3>Work & Learn Attendence Processor</h3>
-						<UploadFileForm handleFile={this.handleCSVInput}/>
+						<FileUIContainer
+							fileLoaded={this.state.fileLoaded}
+							handleCSVInput={this.handleCSVInput} 
+							handleExportClick={this.handleExportClick}/>
 					</div>
 				</div>
 				<div className="row">

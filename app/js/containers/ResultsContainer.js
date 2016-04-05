@@ -8,6 +8,7 @@ import NoFileWarning from '../components/NoFileWarning';
 // import ShowAllDataCheckbox from '..components/ShowAllDataCheckbox'
 
 //TODO: figure out how to get headers to stay in order
+//TODO: ability to click on participants and get all entries 
 
 class ResultsContainer extends React.Component {
 	constructor(props) {
@@ -19,6 +20,7 @@ class ResultsContainer extends React.Component {
 		};
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 		this.handleShowAllClick = this.handleShowAllClick.bind(this);
+		this.handleNameClick = this.handleNameClick.bind(this);
 	}
 
 	handleHeaderClick(sortBy) {
@@ -37,6 +39,9 @@ class ResultsContainer extends React.Component {
 			{showAllData: !this.state.showAllData}
 		);
 	}
+	handleNameClick(e) {
+		console.log('click', e.target.id)
+	}
 
 	render() {
 		let dateRange = calc.getDateRange(this.props.results);
@@ -45,8 +50,10 @@ class ResultsContainer extends React.Component {
 					name={participant.participantName} 
 					totalCredits={participant.totalCredits}
 					cohort={participant.cohort}
-					key={i}
+					key={participant.subjectID}
 					index={i}
+					id={participant.subjectID}
+					handleNameClick={this.handleNameClick}
 				/>
 			)
 		);

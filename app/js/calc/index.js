@@ -9,8 +9,9 @@ function getNames(attendence){
   attendence.forEach(entry => {
     if (_.pluck(names, 'participantName').indexOf(entry.subjectName) === -1 && entry.subjectName) {
       names.push({
-      	participantName:entry.subjectName,
-      	cohort: entry.wLComponent
+      	participantName: entry.subjectName,
+      	cohort: entry.wLComponent,
+        subjectID: entry.subjectID
       });
     };
   });

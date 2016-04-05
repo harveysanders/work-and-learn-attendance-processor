@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UploadFileForm = ({handleFile}) => (
+const UploadFileForm = ({handleFile, helpText}) => (
 	<form role='form'>
 		<div className='form-group'>
 			<label htmlFor="csv-input">
@@ -14,7 +14,7 @@ const UploadFileForm = ({handleFile}) => (
 				onChange={handleFile} 
 			/>
 			<p className="help-block">
-				ex: RadGridExport.csv
+				{helpText}
 			</p>
 		</div>
 	</form>

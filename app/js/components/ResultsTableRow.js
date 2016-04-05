@@ -1,12 +1,24 @@
 import React from 'react';
 
-const ResultsTableRow = ({name, cohort, totalCredits, index}) => (
-	<tr>
+const ResultsTableRow = ({
+	name, 
+	cohort,
+	totalCredits,
+	index,
+	id,
+	handleNameClick
+}) => (
+	<tr >
 		<td>
 			{index + 1}
 		</td>
 		<td>
-			{name}
+			<a 
+				id={id}
+				href="#" 
+				onClick={handleNameClick}>
+				{name}
+			</a>
 		</td>
 		<td>
 			{cohort}
