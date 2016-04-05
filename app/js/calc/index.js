@@ -1,10 +1,10 @@
 import _ from 'underscore';
 import utils from '../utils';
+import moment from 'moment';
 
 let calc = {} 
 
 function getNames(attendence){
-	// console.log(attendence[1]);
   let names = []
   attendence.forEach(entry => {
     if (_.pluck(names, 'participantName').indexOf(entry.subjectName) === -1 && entry.subjectName) {
@@ -34,8 +34,6 @@ calc.getStipends = attendence => {
     },0)
   });
 
-  // console.log(_.zip(names, totals));
-
   let results = _.zip(names, totals).map(el => {
     return Object.assign(
     	el[0], 
@@ -43,6 +41,27 @@ calc.getStipends = attendence => {
   	)
   });
   return results;
+}
+
+calc.getDateRange = attendence => {
+  let dates = attendence.map(entry => {
+    return moment(entry.responseDate, "M/D/YYYY");
+  }).filter(date => {
+    return date.format() !== 'Invalid date';
+  });
+
+  return {
+    earliest: dates.length 
+      ? dates.reduce((earliest, date) => {
+        return earliest.isBefore(date) ? earliest : date;
+      }).format('dddd, MM/DD/YYYY' )
+      : null,
+    latest: dates.length 
+      ? dates.reduce((latest, date) => {
+        return latest.isAfter(date) ? latest : date;
+      }).format('dddd, MM/DD/YYYY' )
+      : null
+  }
 }
 
 export default calc;

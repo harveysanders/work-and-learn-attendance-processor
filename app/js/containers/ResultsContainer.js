@@ -18,7 +18,7 @@ class ResultsContainer extends React.Component {
 			showAllData: false
 		};
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
-		// this.handleShowAllClick = this.handleShowAllClick.bind(this);
+		this.handleShowAllClick = this.handleShowAllClick.bind(this);
 	}
 
 	handleHeaderClick(sortBy) {
@@ -34,16 +34,12 @@ class ResultsContainer extends React.Component {
 	}
 	handleShowAllClick() {
 		this.setState(
-			{showAllData: !this.state.showAllData}, 
-			this.handleCSVInput
+			{showAllData: !this.state.showAllData}
 		);
 	}
 
 	render() {
-		// let headers = [];
-		// for (let prop in this.props.results[0]) {
-		// 	headers.push(<ResultsTableHeader header={prop} key={prop} />)
-		// }
+		let dateRange = calc.getDateRange(this.props.results);
 		let participants = _.sortBy(calc.getStipends(this.props.results), this.state.sortBy).map( (participant, i) =>
 			(<ResultsTableRow 
 					name={participant.participantName} 
@@ -64,15 +60,10 @@ class ResultsContainer extends React.Component {
 			</div>
 		: (
 			<div >
-				<div className="col-md-2">
-					<div className="checkbox">
-					  <label className="checkbox-inline">
-					  	<input 
-					  		onClick={this.props.handleShowAllClick} 
-					  		type="checkbox" /> 
-					  		Show all unprocessed data
-				  	</label>
-					</div>
+				<div className="col-md-2 text-right">
+			  	<label className="label label-default">
+			  		Pay period: {dateRange.earliest} - {dateRange.latest}
+			  	</label>
 				</div>
 				<div className="col-md-10">
 					<table className="table table-hover table-condensed table-striped">
