@@ -4,10 +4,10 @@ import calc from '../calc';
 
 import ResultsTableRow from '../components/ResultsTableRow';
 import ResultsTableHeader from '../components/ResultsTableHeader';
+import NoFileWarning from '../components/NoFileWarning';
 // import ShowAllDataCheckbox from '..components/ShowAllDataCheckbox'
 
 //TODO: figure out how to get headers to stay in order
-//TODO: show date range
 
 class ResultsContainer extends React.Component {
 	constructor(props) {
@@ -54,10 +54,7 @@ class ResultsContainer extends React.Component {
 		if (this.state.reverseSort) {participants.reverse();}
 
 		return !this.props.fileLoaded 
-		? <div className="alert alert-warning" role="alert">
-				<span className="sr-only">Error:</span>
-				Please load a .csv <a href="https://secure.etosoftware.com/" className="alert-link">ETO</a> report.
-			</div>
+		? <NoFileWarning />
 		: (
 			<div >
 				<div className="col-md-2 text-right">
