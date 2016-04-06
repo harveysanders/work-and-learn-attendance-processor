@@ -46,7 +46,7 @@ class ResultsContainer extends React.Component {
 
 	render() {
 		let dateRange = calc.getDateRange(this.props.results);
-		let participants = _.sortBy(calc.getStipends(this.props.results), this.state.sortBy).map( (participant, i) =>
+		let participants = _.sortBy(calc.getStipendsWithDetails(this.props.results), this.state.sortBy).map( (participant, i) =>
 			(<ResultsTableRow 
 					name={participant.participantName} 
 					totalCredits={participant.totalCredits}
@@ -55,6 +55,7 @@ class ResultsContainer extends React.Component {
 					index={i}
 					id={participant.subjectID}
 					handleNameClick={this.handleNameClick}
+					moreDetails={this.moreDetails}
 				/>
 			)
 		);

@@ -4,44 +4,18 @@ import moment from 'moment';
 
 let calc = {} 
 
-function getNames(attendence){
-  let names = []
+function getParticipants(attendence){
+  let participants = []
   attendence.forEach(entry => {
-    if (_.pluck(names, 'participantName').indexOf(entry.subjectName) === -1 && entry.subjectName) {
-      names.push({
+    if (_.pluck(participants, 'participantName').indexOf(entry.subjectName) === -1 && entry.subjectName) {
+      participants.push({
       	participantName: entry.subjectName,
       	cohort: entry.wLComponent,
         subjectID: entry.subjectID
       });
     };
   });
-  return names;
-}
-
-calc.getStipends = attendence => {
-  let names = getNames(attendence);
-
-  let totals = names.map(name => {
-  	//for each participant
-    return attendence.filter(entry => {
-    	//grab only entries for current participant
-      return name.participantName === entry.subjectName;
-    }).map(entry => {
-    	//get totalCredits for each entry and round to nearest 0.5
-      return utils.roundDownToHalf(Number(entry.totalDailyCredits));
-    }).reduce((sum, credits) => {
-    	//sum all of total daily credits
-      return sum + credits;
-    },0)
-  });
-
-  let results = _.zip(names, totals).map(el => {
-    return Object.assign(
-    	el[0], 
-    	{totalCredits: el[1]}
-  	)
-  });
-  return results;
+  return participants;
 }
 
 calc.getDateRange = attendence => {
@@ -63,6 +37,32 @@ calc.getDateRange = attendence => {
       }).format('dddd, MM/DD/YYYY' )
       : null
   }
+}
+
+calc.getStipendsWithDetails = attendence => {
+  let participants = getParticipants(attendence);
+
+  return participants.map(participant => {
+    //for each participant
+    let participantEntries = attendence.filter(entry => {
+      //grab only entries for current participant
+      return participant.participantName === entry.subjectName;
+    })
+
+    let totalCredits = participantEntries.map(entry => {
+        //get totalCredits for each entry and round to nearest 0.5
+        return utils.roundDownToHalf(Number(entry.totalDailyCredits));
+      }).reduce((sum, credits) => {
+        //sum all of total daily credits
+        return sum + credits;
+      },0)
+
+    return Object.assign(
+      participant,
+      {entries: participantEntries},
+      {totalCredits: totalCredits}
+    )
+  });
 }
 
 export default calc;
