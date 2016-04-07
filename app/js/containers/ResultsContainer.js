@@ -3,7 +3,6 @@ import _ from 'underscore';
 import calc from '../calc';
 
 import ResultsTableRow from '../components/ResultsTableRow';
-import CollapsibleRow from '../components/CollapsibleRow';
 import ResultsTableHeader from '../components/ResultsTableHeader';
 import NoFileWarning from '../components/NoFileWarning';
 // import ShowAllDataCheckbox from '..components/ShowAllDataCheckbox'
