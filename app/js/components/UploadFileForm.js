@@ -3,9 +3,6 @@ import React from 'react';
 const UploadFileForm = ({handleFile, helpText}) => (
 	<form role='form'>
 		<div className='form-group'>
-			<label htmlFor="csv-input">
-				Upload ETO attendance file:
-			</label>
 			<input 
 				type="file" 
 				id='csv-input'
