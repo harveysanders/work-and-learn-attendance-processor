@@ -43,7 +43,7 @@ class AppContainer extends React.Component {
 			<div className="container-fluid">
 				<div className='row'>
 					<div className='col-md-6 col-md-offset-3'>
-						<h3>Work & Learn Attendence Processor</h3>
+						<h3>Work & Learn Attendance Processor</h3>
 						<FileUIContainer
 							fileLoaded={this.state.fileLoaded}
 							handleCSVInput={this.handleCSVInput} 
