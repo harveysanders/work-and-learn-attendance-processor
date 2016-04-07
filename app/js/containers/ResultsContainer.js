@@ -17,11 +17,12 @@ class ResultsContainer extends React.Component {
 		this.state = {
 			sortBy: 'participantName',
 			reverseSort: false,
-			showAllData: false
+			showAllData: false,
+			filterText: ''
 		};
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 		this.handleShowAllClick = this.handleShowAllClick.bind(this);
-		this.handleNameClick = this.handleNameClick.bind(this);
+		this.handleSearchInput = this.handleSearchInput.bind(this);
 	}
 
 	handleHeaderClick(sortBy) {
@@ -40,13 +41,17 @@ class ResultsContainer extends React.Component {
 			{showAllData: !this.state.showAllData}
 		);
 	}
-	handleNameClick(e) {
-		console.log('click', e.target.id)
-	}
 
+	handleSearchInput(e) {
+		this.setState({
+			filterText: e.target.value
+		});
+	}
 	render() {
 		let dateRange = calc.getDateRange(this.props.results);
-		let participants = _.sortBy(calc.getStipendsWithDetails(this.props.results), this.state.sortBy).map( (participant, i) =>
+		let participants = _.sortBy(calc.getStipendsWithDetails(this.props.results).filter(participant => {
+			return participant.participantName.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1;
+		}) , this.state.sortBy).map( (participant, i) =>
 			(<ResultsTableRow 
 					name={participant.participantName} 
 					totalCredits={participant.totalCredits}
@@ -54,8 +59,7 @@ class ResultsContainer extends React.Component {
 					key={participant.subjectID}
 					index={i}
 					id={participant.subjectID}
-					handleNameClick={this.handleNameClick}
-					moreDetails={this.moreDetails}
+					attendanceEntries={participant.entries}
 				/>
 			)
 		);
@@ -66,12 +70,26 @@ class ResultsContainer extends React.Component {
 		? <NoFileWarning />
 		: (
 			<div >
+
 				<div className="col-md-2 text-right">
 			  	<label className="label label-default">
 			  		Pay period: {dateRange.earliest} - {dateRange.latest}
 			  	</label>
 				</div>
+
 				<div className="col-md-10">
+
+					<form role="form" className="form-inline">
+						<div className="form-group">
+							<input 
+								type="text" 
+								className="form-control" 
+								id="searchInput" 
+								placeholder="Search Participants"
+								onChange={this.handleSearchInput}/>
+						</div>
+					</form>
+
 					<table className="table table-hover table-condensed table-striped">
 						<thead>
 							<tr>
@@ -94,10 +112,11 @@ class ResultsContainer extends React.Component {
 							</tr>
 						</thead>
 						<tbody>
-							{participants}
+							{participants.length === 0 ? 'No results found.' : participants}
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 		)
 	}

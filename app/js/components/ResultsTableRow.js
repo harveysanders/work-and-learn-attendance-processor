@@ -1,5 +1,5 @@
 import React from 'react';
-import MoreDetailsModal from '../components/MoreDetailsModal';
+import MoreDetailsModalContainer from '../containers/MoreDetailsModalContainer';
 
 const ResultsTableRow = ({
 	name, 
@@ -7,7 +7,8 @@ const ResultsTableRow = ({
 	totalCredits,
 	index,
 	id,
-	handleNameClick
+	handleNameClick,
+	attendanceEntries
 }) => (
 	<tr
 		data-toggle="modal"
@@ -21,7 +22,6 @@ const ResultsTableRow = ({
 				onClick={
 					e => {
 						e.stopPropagation();
-						console.log('click', id);
 						$('#'+id).modal('show');
 					}
 				}
@@ -34,7 +34,7 @@ const ResultsTableRow = ({
 		</td>
 		<td>
 			{totalCredits}
-			<MoreDetailsModal targetID={id} />
+			<MoreDetailsModalContainer targetID={id} attendanceEntries={attendanceEntries}/>
 		</td>
 	</tr>
 )
