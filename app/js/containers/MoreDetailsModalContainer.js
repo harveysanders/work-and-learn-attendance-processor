@@ -5,21 +5,54 @@ class MoreDetailsModalContainer extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+	getAttendanceLabels(entry) {
+		let attendanceLabel = {type: '', text: ''}
+		switch(entry) {
+			case 'On Time - Present':
+				attendanceLabel = {type: 'success', text:'On Time'}
+				break;
+		case 'Late but Present':
+				attendanceLabel = {type: 'warning', text:'Late'}
+				break;
+		case 'Absent':
+				attendanceLabel = {type: 'danger', text:'Absent'}
+				break;
+		default:
+			attendanceLabel = {type: 'default', text:'N/A'};
+		}return attendanceLabel;
+	}
+
+	fillBlanksWithZero(str) {
+		return /^[A-Za-z0-9]/.test(str) ? str : '0'
+	}
+
  render() {
  	let entries = this.props.attendanceEntries.map((entry, i) => {
+		let classAttLabel = this.getAttendanceLabels(entry.classAttendance);
+		let extraHoursAttLabel = this.getAttendanceLabels(entry.extraHoursAttendance);
  		return (
  			<tr key={i}>
 	 			<td>
 	 				{moment(entry.responseDate, "M/D/YYYY").format('dddd, MM/DD/YY' )}
 	 			</td>
 	 			<td>
-					{entry.classHours}
+					<span className={"label label-" + classAttLabel.type}>
+						{classAttLabel.text}
+					</span>
 	 			</td>
 	 			<td>
-					{entry.extraHours}
+					{this.fillBlanksWithZero(entry.classHours)}
 	 			</td>
 	 			<td>
-					{entry.extraCredit}
+					<span className={"label label-" + extraHoursAttLabel.type}>
+						{extraHoursAttLabel.text}
+					</span>
+	 			</td>
+	 			<td>
+					{this.fillBlanksWithZero(entry.extraHours)}
+	 			</td>
+	 			<td>
+					{this.fillBlanksWithZero(entry.extraCredit)}
 	 			</td>
 	 			<td>
 					{entry.totalDailyTime}
@@ -46,7 +79,13 @@ class MoreDetailsModalContainer extends React.Component {
 										Date
 									</th>
 									<th>
+										Class Attendance
+									</th>
+									<th>
 										Class Hours
+									</th>
+									<th>
+										Extra Hours Attendance
 									</th>
 									<th>
 										Extra Hours
