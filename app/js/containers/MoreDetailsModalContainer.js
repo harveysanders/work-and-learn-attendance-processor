@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import utils from '../utils';
 
 class MoreDetailsModalContainer extends React.Component {
 	constructor(props) {
@@ -58,7 +59,7 @@ class MoreDetailsModalContainer extends React.Component {
 					{entry.totalDailyTime}
 	 			</td>
 	 			<td>
-					{entry.totalDailyCredits}
+					{utils.roundDownToHalf(Number(entry.totalDailyCredits)) }
 	 			</td>
  			</tr>
 		)
