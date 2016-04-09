@@ -70,7 +70,9 @@ class MoreDetailsModalContainer extends React.Component {
 		    <div className="modal-content">
 		      <div className="modal-header">
 		        <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 className="modal-title" id="myModalLabel">{this.props.attendanceEntries[0].subjectName}</h4>
+		        <div className="modal-title" id="myModalLabel"><h4>{this.props.attendanceEntries[0].subjectName}</h4> 	
+		        	Total Credits: {this.props.totalCredits}
+		        </div>
 		      </div>
 		      <div className="modal-body">
 		        <table className="table table-hover table-condensed table-striped">

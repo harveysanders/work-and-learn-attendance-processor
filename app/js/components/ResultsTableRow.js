@@ -34,7 +34,7 @@ const ResultsTableRow = ({
 		</td>
 		<td>
 			{totalCredits}
-			<MoreDetailsModalContainer targetID={id} attendanceEntries={attendanceEntries}/>
+			<MoreDetailsModalContainer targetID={id} attendanceEntries={attendanceEntries} totalCredits={totalCredits}/>
 		</td>
 	</tr>
 )
