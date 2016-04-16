@@ -7,7 +7,6 @@ const ResultsTableRow = ({
 	totalCredits,
 	index,
 	id,
-	handleNameClick,
 	attendanceEntries
 }) => (
 	<tr
@@ -37,6 +36,6 @@ const ResultsTableRow = ({
 			<MoreDetailsModalContainer targetID={id} attendanceEntries={attendanceEntries} totalCredits={totalCredits}/>
 		</td>
 	</tr>
-)
+);
 
 export default ResultsTableRow;

@@ -71,9 +71,9 @@ class ResultsContainer extends React.Component {
 			<div >
 
 				<div className="col-md-2 text-right">
-			  	<label className="label label-default">
-			  		Pay period: {dateRange.earliest} - {dateRange.latest}
-			  	</label>
+					<label className="label label-default">
+						Pay period: {dateRange.earliest} - {dateRange.latest}
+					</label>
 				</div>
 
 				<div className="col-md-10">
@@ -117,7 +117,7 @@ class ResultsContainer extends React.Component {
 				</div>
 
 			</div>
-		)
+		);
 	}
 }
 

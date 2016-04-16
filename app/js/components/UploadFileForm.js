@@ -15,6 +15,6 @@ const UploadFileForm = ({handleFile, helpText}) => (
 			</p>
 		</div>
 	</form>
-)
+);
 
 export default UploadFileForm;

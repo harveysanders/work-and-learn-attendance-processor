@@ -14,7 +14,7 @@ class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			results: [{participantName: "Doe, John ", totalCredits:6.2}],
+			results: [{participantName: 'Doe, John ', totalCredits:6.2}],
 			fileLoaded: false
 		};
 		this.handleCSVInput = this.handleCSVInput.bind(this);
@@ -22,20 +22,20 @@ class AppContainer extends React.Component {
 	}
 	handleCSVInput(e) {
 		Papa.parse(e.target.files[0], {
-		  header: true,
-		  error: (error, file) => {
-		    console.error('error: ', error);
-		  },
-		  complete: (results, file) => {
-		    this.setState({
-		    	results: utils.cleanEtoData(results.data),
-		    	fileLoaded: true
-		    })
-		  }
-		})
+			header: true,
+			error: (error, file) => {
+				// console.error('error: ', error);
+			},
+			complete: (results, file) => {
+				this.setState({
+					results: utils.cleanEtoData(results.data),
+					fileLoaded: true
+				});
+			}
+		});
 	}
 	handleExportClick(e) {
-		console.log('export file');
+		// console.log('export file');
 	}
 	
 	render() {
@@ -57,7 +57,7 @@ class AppContainer extends React.Component {
 				</div>
 
 			</div>
-		)
+		);
 	}
 }
 

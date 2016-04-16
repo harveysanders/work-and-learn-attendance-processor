@@ -28,7 +28,7 @@ class FileUIContainer extends React.Component {
 					handleFile={this.props.handleCSVInput}
 					helpText="ex: RadGridExport.csv"/>
 			</div>
-		)
+		);
 	}
 }
 

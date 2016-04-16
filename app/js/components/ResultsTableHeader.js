@@ -4,6 +4,6 @@ const ResultsTableHeader = ({header}) => (
 	<th>
 		{header}
 	</th>
-)
+);
 
 export default ResultsTableHeader;
