@@ -28,42 +28,54 @@ class MoreDetailsModalContainer extends React.Component {
 	}
 
 	render() {
-		let entries = this.props.attendanceEntries.map((entry, i) => {
-			let classAttLabel = this.getAttendanceLabels(entry.classAttendance);
-			let extraHoursAttLabel = this.getAttendanceLabels(entry.extraHoursAttendance);
-			return (
-				<tr key={i}>
-					<td>
-						{moment(entry.responseDate, 'M/D/YYYY').format('dddd, MM/DD/YY' )}
-					</td>
-					<td>
-						<span className={'label label-' + classAttLabel.type}>
-							{classAttLabel.text}
-						</span>
-					</td>
-					<td>
-						{this.fillBlanksWithZero(entry.classHours)}
-					</td>
-					<td>
-						<span className={'label label-' + extraHoursAttLabel.type}>
-							{extraHoursAttLabel.text}
-						</span>
-					</td>
-					<td>
-						{this.fillBlanksWithZero(entry.extraHours)}
-					</td>
-					<td>
-						{this.fillBlanksWithZero(entry.extraCredit)}
-					</td>
-					<td>
-						{entry.totalDailyTime}
-					</td>
-					<td>
-						{utils.roundDownToHalf(Number(entry.totalDailyCredits)) }
-					</td>
-				</tr>
-			);
-		});
+		let entries = this.props.attendanceEntries
+			// sort by date
+			.sort(function(entryA, entryB) {
+				var dateA = moment(entryA.responseDate, 'M/D/YYYY');
+				var dateB = moment(entryB.responseDate, 'M/D/YYYY');
+			
+				if (dateA > dateB ) { return -1; }
+				if (dateA < dateB ) {	return 1; }
+				return 0;
+			})
+			.map((entry, i) => {
+				let classAttLabel = this.getAttendanceLabels(entry.classAttendance);
+				let extraHoursAttLabel = this.getAttendanceLabels(entry.extraHoursAttendance);
+				
+				return (
+					<tr key={i}>
+						<td>
+							{moment(entry.responseDate, 'M/D/YYYY').format('dddd, MM/DD/YY' )}
+						</td>
+						<td>
+							<span className={'label label-' + classAttLabel.type}>
+								{classAttLabel.text}
+							</span>
+						</td>
+						<td>
+							{this.fillBlanksWithZero(entry.classHours)}
+						</td>
+						<td>
+							<span className={'label label-' + extraHoursAttLabel.type}>
+								{extraHoursAttLabel.text}
+							</span>
+						</td>
+						<td>
+							{this.fillBlanksWithZero(entry.extraHours)}
+						</td>
+						<td>
+							{this.fillBlanksWithZero(entry.extraCredit)}
+						</td>
+						<td>
+							{entry.totalDailyTime}
+						</td>
+						<td>
+							{utils.roundDownToHalf(Number(entry.totalDailyCredits)) }
+						</td>
+					</tr>
+				);
+			});
+
 		return (
 			<div className="modal fade" id={this.props.targetID} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div className="modal-dialog" role="document">
